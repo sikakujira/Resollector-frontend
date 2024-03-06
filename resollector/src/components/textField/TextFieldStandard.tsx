@@ -33,7 +33,7 @@ const Underline = styled.span<{mode: "light" | "dark", $isfocused: string, $valu
 //input部分
 type TextFieldProps = {
     type: string,
-    onChange?: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
     value?: string,
     name: string,
     mode: "light" | "dark",
@@ -98,7 +98,7 @@ type Props = {
     mode: "light" | "dark",
     placeholder?: string,
     value: string,
-    onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void,
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     error: string,
     errorText?: string,
 };

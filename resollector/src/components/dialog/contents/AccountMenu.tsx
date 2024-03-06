@@ -22,12 +22,12 @@ const MenuList = styled.div<MenuListProps>`
         ${({mode}) => {
             if(mode === "light") {
                 return css`
-                    background-color: ${themeColor.light.header};
+                    background-color: ${themeColor.light.surfaceContainer};
                     box-shadow: 2px 3px 6px -5px;
                     `
             } else {
                 return css`
-                    background-color: ${themeColor.dark.header};
+                    background-color: ${themeColor.dark.surfaceContainerHigh};
                     `
             }
         }}
@@ -40,19 +40,19 @@ type AccountMenuProps = {
 function AccountMenu(props: AccountMenuProps) {
     const dialogRef = useRef<HTMLDialogElement>(null);
 
-    function openSettings() {
+    function openSettings(): void {
         if(dialogRef.current) {
             dialogRef.current.showModal();
         }
     }
 
-    function closeSettings() {
+    function closeSettings(): void {
         if(dialogRef.current) {
             dialogRef.current.close();
         }
     }
     
-    function logout() {}
+    function logout(): void {}
 
     return(
         <MenuList 
@@ -84,7 +84,10 @@ function AccountMenu(props: AccountMenuProps) {
             ref={dialogRef}
             mode={props.mode}
             >
-            <AccountSettings/>
+            <AccountSettings
+                mode={props.mode}
+                onClick={closeSettings}
+                />
         </AccountSettingsDialog>
         </MenuList>
     )

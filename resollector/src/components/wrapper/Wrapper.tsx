@@ -7,6 +7,9 @@ type Props = {
     $right?: string,
     $bottom?: string,
     $left?: string,
+    $width?: string,
+    $height?: string,
+    $margin?: string,
 };
 
 const Wrapper = styled.div<Props>`
@@ -15,6 +18,9 @@ const Wrapper = styled.div<Props>`
         right: ${({$right}) => $right};
         bottom: ${({$bottom}) => $bottom};
         left: ${({$left}) => $left};
+        width: ${props => props.$width};
+        height: ${props => props.$height};
+        margin: ${props => props.$margin};
     `
 
 export default Wrapper;

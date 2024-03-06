@@ -13,7 +13,7 @@ const StyledHeader = styled.header<{mode: "light"| "dark"}>`
     height: 5rem;
     z-index: 1;
     background-color: ${props => (
-        props.mode === "light" ? `${themeColor.light.header}` : `${themeColor.dark.header}`
+        props.mode === "light" ? `${themeColor.light.surfaceContainer}` : `${themeColor.dark.surfaceContainerHigh}`
         )}
     `
 const Logo = styled.img.attrs<{mode: "light"|"dark"}>({

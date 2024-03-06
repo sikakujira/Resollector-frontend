@@ -19,29 +19,70 @@ const Button = styled.button<ButtonProps>`
         border: none;
         outline: none;
         cursor: pointer;
+        overflow: hidden;
         ${props => {
             switch(true) {
                 case (props.mode === "light") && (props.$isClicked === false):
                     return css`
-                        background-color: ${themeColor.light.header};
+                        background-color: ${themeColor.light.surfaceContainer};
                         &:hover {
-                            background-color: ${themeColor.light.surfaceDim};
+                            &::before {
+                                content: "";
+                                background-color: ${themeColor.light.primary};
+                                height: 100%;
+                                width: 100%;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                opacity: 8%;
+                            }
+                       
                         }
                     `
                 case (props.mode === "light") && (props.$isClicked === true):
                     return css`
-                        background-color: ${themeColor.light.surfaceDim};
+                        background-color: ${themeColor.light.surfaceContainer};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.light.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 8%;
+                        }
                     `
                 case (props.mode === "dark") && (props.$isClicked === false):
                     return css`
-                        background-color: ${themeColor.dark.header};
+                        background-color: ${themeColor.dark.surfaceContainerHigh};
                         &:hover {
-                        background-color: ${themeColor.dark.onPrimary};
+                            &::before {
+                                content: "";
+                                background-color: ${themeColor.dark.primary};
+                                height: 100%;
+                                width: 100%;
+                                position: absolute;
+                                top: 0;
+                                left: 0;
+                                opacity: 8%;
+                            }
+                       
                         }
                     `
                 case (props.mode === "dark") && (props.$isClicked === true):
                     return css`
-                        background-color: ${themeColor.dark.onPrimary};
+                        background-color: ${themeColor.dark.surfaceContainerHigh};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.dark.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 8%;
+                        }
                         `
             }    
         }}
@@ -56,14 +97,14 @@ function AccountButton(props: AccountButtonProps) {
         const [isClicked, setIsClicked] = useState<boolean>(false);
         const dialogRef = useRef<HTMLDialogElement>(null);
 
-        function openDialog() {
+        function openDialog(): void {
             if(dialogRef.current) {
                 dialogRef.current.showModal();
                 setIsClicked(true);
             }
         }
 
-        function closeDialog() {
+        function closeDialog(): void {
             if(dialogRef.current) {
                 dialogRef.current.close();
                 setIsClicked(false);

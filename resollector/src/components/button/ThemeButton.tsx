@@ -11,19 +11,40 @@ const Button = styled.button<{mode: "light"|"dark"}>`
         outline: none;
         border-radius: 50%;
         cursor: pointer;
+        overflow: hidden;
         ${({mode}) => {
             if(mode === "light") {
                 return css`
-                    background-color: ${themeColor.light.header};
+                    background-color: ${themeColor.light.surfaceContainer};
                     &:hover {
-                        background-color: ${themeColor.light.surfaceDim};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.light.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 8%;
+                        }
+                   
                     }    
                 `
             } else {
                 return css`
-                    background-color: ${themeColor.dark.header};
+                    background-color: ${themeColor.dark.surfaceContainerHigh};
                     &:hover {
-                        background-color: ${themeColor.dark.onPrimary};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.dark.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 8%;
+                        }
+                   
                     }
                 `
             }

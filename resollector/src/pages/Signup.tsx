@@ -36,15 +36,15 @@ export default function Signup() {
             confirmPasswordError: string,
         }
 
-        function handleEmailChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        function handleEmailChange(e: React.ChangeEvent<HTMLInputElement>): void {
              setEmail(e.target.value);
         }
        
-        function handlePasswordChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        function handlePasswordChange(e: React.ChangeEvent<HTMLInputElement>): void {
             setPassword(e.target.value);
         }
 
-        function handleConfirmPasswordChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        function handleConfirmPasswordChange(e: React.ChangeEvent<HTMLInputElement>): void {
             setConfirmPassword(e.target.value);
         }
 
@@ -64,7 +64,7 @@ export default function Signup() {
         <Box 
             $top="4rem" 
             $left="14rem" 
-            color={`${themeColor.light.primary}`} 
+            $color={`${themeColor.light.primary}`} 
             fontSize="30px">
                 Sign up
         </Box>

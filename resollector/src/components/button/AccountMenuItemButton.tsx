@@ -21,23 +21,60 @@ const Button = styled.button<ButtonProps>`
         ${({mode}) => {
             if(mode === "light") {
                 return css`
-                    background-color: ${themeColor.light.header};
+                    background-color: ${themeColor.light.surfaceContainer};
+                    color: ${themeColor.light.onSurfaceVariant};
                     &:hover {
-                        background-color: ${themeColor.light.surfaceDim};
+                        &::before {
+                            content: "";
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            background-color: ${themeColor.light.primary};
+                            opacity: 8%;
+                        }
                     }
                     &:active {
-                        background-color: ${themeColor.light.surfaceDimDark};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.light.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 10%;
+                        }
                     }
                     `
             } else {
                 return css`
-                    background-color: ${themeColor.dark.header};
-                    color: ${themeColor.light.surface};
+                    background-color: ${themeColor.dark.surfaceContainerHigh};
+                    color: ${themeColor.dark.onSurfaceVariant};
                     &:hover {
-                        background-color: ${themeColor.dark.onPrimary};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.dark.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 8%;
+                        }
                     }
                     &:active {
-                        background-color: ${themeColor.dark.onPrimaryLight};
+                        &::before {
+                            content: "";
+                            background-color: ${themeColor.dark.primary};
+                            height: 100%;
+                            width: 100%;
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            opacity: 10%;
+                        }
                     }
                     `
             }
@@ -100,15 +137,15 @@ function AccountMenuItemButton(props: AccountMenuItemButtonProps) {
             locationY: string,
         }
 
-        function handleMouseDown(e: React.MouseEvent<HTMLButtonElement>) {
+        function handleMouseDown(e: React.MouseEvent<HTMLButtonElement>): void {
                 const targetRect = e.currentTarget.getBoundingClientRect();
-                const calculateLocationX = e.clientX - targetRect.left - 10;
-                const calculateLocationY = e.clientY - targetRect.top - 10;
-                setClickedLocation({locationX: calculateLocationX.toString(), locationY: calculateLocationY.toString()});
+                const calculationLocationX = e.clientX - targetRect.left - 10;
+                const calculationLocationY = e.clientY - targetRect.top - 10;
+                setClickedLocation({locationX: calculationLocationX.toString(), locationY: calculationLocationY.toString()});
                 setIsClicked(true);
         }
 
-        function handleMouseUp() {
+        function handleMouseUp(): void {
                 setIsClicked(false);
                 if(props.onClick !== undefined) {
                     props.onClick();
