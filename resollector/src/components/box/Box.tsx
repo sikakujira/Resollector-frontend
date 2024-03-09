@@ -10,13 +10,16 @@ type Props = {
     $color?: string|"light"|"dark",
     fontSize?: string,
     $zIndex?: string,
+    $bottom?: string,
+    $position?: string,
 };
 
 const Box = styled.div<Props>`
-        position: absolute;
+        position: ${props => props.$position ? props.$position : "absolute"};
         top: ${props => props.$top};
         left: ${props => props.$left};
         right: ${props => props.$right};
+        bottom: ${props => props.$bottom};
         height: ${props => props.height};
         width: ${props => props.width};
         color: 

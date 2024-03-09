@@ -133,7 +133,8 @@ type FilledButtonProps = {
     bottom?: string,
     mode: "light" | "dark",
     content: string,
-    onClick?: () => void,
+    onClick?: (e?: any) => void,
+    className?: string,
 };
 
 function FilledButton(props: FilledButtonProps) {
@@ -172,6 +173,7 @@ function FilledButton(props: FilledButtonProps) {
             mode={props.mode}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
+            className={props.className}
             >
             {props.content}
             <Wave 

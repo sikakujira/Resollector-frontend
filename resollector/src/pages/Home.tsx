@@ -7,6 +7,7 @@ import AddIssueContents from '../components/dialog/contents/AddIssueContents';
 import SearchBar from '../components/searchbar/SearchBar';
 import MainContentsWrapper from '../components/wrapper/MainContentsWrapper';
 import IssueCard from '../components/card/IssueCard';
+import IssueWrapper from '../components/wrapper/IssueWrapper';
 
 export default function Home() {
     const [mode, setMode] = useState<"light" | "dark">("light");
@@ -45,9 +46,22 @@ export default function Home() {
             <SearchBar
                 mode={mode}
                 />
-            <IssueCard
-                mode={mode}
-                />
+                <IssueWrapper>
+                    <IssueCard
+                        mode={mode}
+                        issueId="1"
+                        issueTitle="sampleIssue サンプル"
+                        issueNote="sampleissuenoteだああああああああああああ\nいああああああああああああああああああああ"
+                        issueURL="https://chat.openai.com/"
+                        />
+                    <IssueCard
+                        mode={mode}
+                        issueId="2"
+                        issueTitle="sampleIssue サンプル2"
+                        issueNote={`sampleissuenote2\n\n どうかな`}
+                        issueURL="https://chat.openai.com/"
+                        />
+                </IssueWrapper>
             </MainContentsWrapper>
             <FAB
                 bottom="5%"

@@ -26,7 +26,7 @@ const SearchWrapper = styled.div<{mode:"light"|"dark"}>`
             }
         }};
         @media (min-width: 841px) {
-            width: 70%;
+            width: 80%;
         }
         @media (max-width: 840px) {
             width: 90%;
