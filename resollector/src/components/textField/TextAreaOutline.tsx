@@ -10,18 +10,18 @@ type TextareaProps = {
 }
 
 const Input = styled.textarea<TextareaProps>`
-        width: 100%;
-        height: 100%;
+        width: 95%;
+        height: 98%;
         font-size: 20px;
         border-radius: 0.5rem;
         outline: none;
         background-color: transparent;
-        padding-left: 20px;
+        padding-left: 5%;
+        padding-top: 2%;
         color: ${props => (props.mode === "light" 
             ? `${themeColor.light.onSurfaceVariant}` 
             : `${themeColor.dark.onSurfaceVariant}`
             )};
-        padding: 10px;
         ${({$isFocused, value, mode}) => {
             if($isFocused || value ) {
                 return css`

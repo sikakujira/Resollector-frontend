@@ -3,7 +3,12 @@ import Box from '../box/Box';
 import themeColor from '../../utils/themeColor';
 import { MdOutlineSearch } from "react-icons/md";
 import TextButton from '../button/TextButton';
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import useFetch from '../../services/useFetch';
+import { IssuesDispatchContext } from '../../context/IssuesContext';
+import getCookie from '../../services/getCookie';
+import { Issue } from '../../reducer/IssuesReducer';
+import { SetQueryContext } from '../../context/RefetchIssuesContext';
 
 
 const SearchWrapper = styled.div<{mode:"light"|"dark"}>`
@@ -30,6 +35,14 @@ const SearchWrapper = styled.div<{mode:"light"|"dark"}>`
         }
         @media (max-width: 840px) {
             width: 90%;
+        }
+`
+
+
+const SearchButton = styled(TextButton)`
+        color: ${props => props.mode === "light"
+                ? `${themeColor.light.onSurface}`
+                : `${themeColor.dark.onSurface}`
         }
 `
 
@@ -72,6 +85,36 @@ type SearchBarProps = {
 
 function SearchBar(props: SearchBarProps) {
     const [value, setValue] = useState<string>("");
+    const issuesDispatch = useContext(IssuesDispatchContext);
+    const [refresh, setRefresh] = useState<boolean>(false);
+    const setQuery = useContext(SetQueryContext);
+
+    const option = {
+        method: 'POST',
+        url: 'api/v1/issues/search/by-title',
+        header: {
+            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        },
+        data: {
+            title: value
+        },
+    }
+
+    const {response, sendRequest} = useFetch<Issue[], unknown>(option);
+
+    useEffect(() => {
+        if(response && (response.status === 200)) {
+            issuesDispatch({type: 'updateAll', issues: response.data});
+        }
+    }, [response, issuesDispatch]);
+
+    useEffect(() => {
+        //他のリクエストを挟むとcsrfトークンが変わってしまうため、再レンダリングで取得し直す
+        if(refresh) {
+            sendRequest();
+            setRefresh(false);
+        }
+    },[refresh, sendRequest]);
 
     function handleChange(e: React.ChangeEvent<HTMLInputElement>): void {
         setValue(e.target.value);
@@ -81,30 +124,39 @@ function SearchBar(props: SearchBarProps) {
         setValue("");
     }
 
+    function handleSubmit(): void {
+        setRefresh(true);
+        setQuery({title: value, folderId: null});
+    }
+
+    function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
+        if(e.key === 'Enter') {
+            setRefresh(true);
+            setQuery({title: value, folderId: null});
+        }
+    }
+
     return(
             <SearchWrapper
                 mode={props.mode}
                 >
                 <Box
-                    $zIndex="2"
-                    $left="3%"
-                    $top="0.7rem"
+                    $left="0.5%"
+                    $top="15%"
                     >
-                {props.mode === "light" 
-                    ?   <MdOutlineSearch
-                            color={themeColor.light.onSurface}
+                <SearchButton
+                    mode={props.mode}
+                    onClick={handleSubmit}>
+                    <MdOutlineSearch
                             size={30}
                             />
-                    :    <MdOutlineSearch
-                            color={themeColor.dark.onSurface}
-                            size={30}
-                            />
-                }
+                </SearchButton>
                 </Box>
                 <Input
                     mode={props.mode}
                     value={value}
                     onChange={handleChange}
+                    onKeyDown={handleKeyDown}
                     />
                 {value          
                     ?  <TextButton

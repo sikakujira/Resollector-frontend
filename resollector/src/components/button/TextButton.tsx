@@ -3,8 +3,8 @@ import themeColor from '../../utils/themeColor';
 import React, { useState } from 'react';
 
 type ButtonProps = {
-    height: string,
-    width: string,
+    height?: string,
+    width?: string,
     $top?: string,
     $left?: string,
     $bottom?: string,
@@ -118,16 +118,18 @@ const Wave = styled.span<WaveProps>`
 
 
 type TextButtonProps = {
-    height: string,
-    width: string,
+    height?: string,
+    width?: string,
     top?: string,
     left?: string,
     right?: string,
     bottom?: string,
-    content: string,
+    content?: string,
     mode: "light" | "dark",
     onClick?: () => void, 
     zIndex?: string,
+    className?: string,
+    children?: React.ReactNode,
 }
 
 function TextButton(props: TextButtonProps) {
@@ -140,9 +142,9 @@ function TextButton(props: TextButtonProps) {
     }
     
     function handleMouseDown(e: React.MouseEvent<HTMLButtonElement>): void {
-            //半径分引く
-            const calculationLocationX = e.nativeEvent.offsetX - 10;
-            const calculationLocationY = e.nativeEvent.offsetY - 10;
+            const targetRect = e.currentTarget.getBoundingClientRect();
+            const calculationLocationX = e.clientX - targetRect.left - 10;
+            const calculationLocationY = e.clientY - targetRect.top - 10;
             setClickedLocation({locationX: calculationLocationX.toString(), locationY: calculationLocationY.toString()});
             setIsClicked(true);
     }
@@ -166,8 +168,10 @@ function TextButton(props: TextButtonProps) {
             mode={props.mode}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
+            className={props.className}
             >
             {props.content}
+            {props.children}
             <Wave
                 $isClicked={isClicked}
                 $top={clickedLocation.locationY}

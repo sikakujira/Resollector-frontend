@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+import HomeContents from './HomeContents';
+import FoldersProvider from '../context/FoldersProvider';
+import IssuesProvider from '../context/IssuesProvider';
+import RefetchIssuesProvider from '../context/RefetchIssuesProvider';
+=======
 import { useState, useRef } from 'react';
 import Background from '../components/background/Background';
 import Header from '../components/header/Header';
@@ -8,32 +14,19 @@ import SearchBar from '../components/searchbar/SearchBar';
 import MainContentsWrapper from '../components/wrapper/MainContentsWrapper';
 import IssueCard from '../components/card/IssueCard';
 import IssueWrapper from '../components/wrapper/IssueWrapper';
+>>>>>>> 9abf34c (フォルダ機能前)
 
 export default function Home() {
-    const [mode, setMode] = useState<"light" | "dark">("light");
-    const addIssueDialogRef = useRef<HTMLDialogElement>(null);
-
-    function handleClickTheme(): void {
-            if(mode === "light") {
-                setMode("dark");
-            } else {
-                setMode("light");
-            }
-    }
-
-    function openAddIssueDialog(): void {
-        if(addIssueDialogRef.current) {
-            addIssueDialogRef.current.showModal();
-        }
-    }
-
-    function closeAddIssueDialog(): void {
-        if(addIssueDialogRef.current) {
-            addIssueDialogRef.current.close();
-        }
-    }
-
     return(
+<<<<<<< HEAD
+        <FoldersProvider>
+            <IssuesProvider>
+                <RefetchIssuesProvider>
+                    <HomeContents/>
+                </RefetchIssuesProvider>
+            </IssuesProvider>
+        </FoldersProvider>
+=======
         <Background 
             mode={mode}
             >
@@ -80,5 +73,6 @@ export default function Home() {
                     />
             </AddIssueDialog>
         </Background>
+>>>>>>> 9abf34c (フォルダ機能前)
     )
 }

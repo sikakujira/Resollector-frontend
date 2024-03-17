@@ -12,6 +12,11 @@ type Props = {
     $zIndex?: string,
     $bottom?: string,
     $position?: string,
+<<<<<<< HEAD
+    $padding?: string,
+    $margin?: string,
+=======
+>>>>>>> 9abf34c (フォルダ機能前)
 };
 
 const Box = styled.div<Props>`
@@ -35,6 +40,8 @@ const Box = styled.div<Props>`
             }};
         font-size: ${props => props.fontSize};
         z-index: ${props => props.$zIndex};
+        padding: ${props => props.$padding};
+        margin: ${props => props.$margin};
     `
 
 export default Box;

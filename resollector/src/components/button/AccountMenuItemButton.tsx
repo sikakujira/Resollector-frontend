@@ -5,18 +5,17 @@ import Box from '../box/Box';
 
 type ButtonProps = {
     mode: "light"|"dark",
-    $top: string,
+    $displayNone?: boolean,
 }
 
 const Button = styled.button<ButtonProps>`
+        position: absolute;
         border: none;
         outline: none;
         overflow: hidden;
         cursor: pointer;
-        position: absolute;
-        top: ${props => props.$top};
         width: 100%;
-        height: 50%;
+        height: 2.5rem;
         border-radius: 0.5rem;
         ${({mode}) => {
             if(mode === "light") {
@@ -125,7 +124,7 @@ type AccountMenuItemButtonProps = {
     children?: React.ReactNode,
     content: string,
     onClick?: () => void,
-    $top: string,
+    className?: string,
 }
 
 function AccountMenuItemButton(props: AccountMenuItemButtonProps) {
@@ -157,7 +156,7 @@ function AccountMenuItemButton(props: AccountMenuItemButtonProps) {
             mode={props.mode}
             onMouseDown={handleMouseDown}
             onMouseUp={handleMouseUp}
-            $top={props.$top}
+            className={props.className}
             >
             <Box
                 $left="0.7rem"
@@ -165,7 +164,11 @@ function AccountMenuItemButton(props: AccountMenuItemButtonProps) {
                 >
                 {props.children}
             </Box>
+            <Box
+                $left="2.7rem"
+                $top="0.8rem">
                 {props.content}
+            </Box>
             <Wave
                 $isClicked={isClicked}
                 $top={clickedLocation.locationY}

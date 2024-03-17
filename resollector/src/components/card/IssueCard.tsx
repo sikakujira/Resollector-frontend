@@ -3,17 +3,34 @@ import themeColor from '../../utils/themeColor';
 import IssueElevatedCard from './IssueElevatedCard';
 import Box from '../box/Box';
 import { MdArrowDownward } from "react-icons/md";
+<<<<<<< HEAD
+import { useState } from "react";
+import IssueNote from './IssueNote';
+import IssueMenuButton from '../button/IssueMenuButton';
+=======
 import { useState, useRef } from "react";
 import IssueNote from './IssueNote';
 import FilledButton from '../button/FilledButton';
 import EditIssueDialog from '../dialog/EditIssueDialog';
 import EditIssueContents from '../dialog/contents/EditIssueContents';
+>>>>>>> 9abf34c (フォルダ機能前)
 
 const Card = styled.div`
     margin: 0 auto 1rem;
     width: 100%;
     height: 5rem;
 `
+<<<<<<< HEAD
+
+
+type IssueCardProps = {
+    mode: "light"|"dark",
+    issueId: number,
+    issueTitle: string,
+    issueURL: string,
+    issueNote: string,
+    folderName: string,
+=======
 const EditButton = styled(FilledButton)`
     position: relative;
     top: 1.5rem;
@@ -34,11 +51,15 @@ type IssueCardProps = {
     issueTitle: string,
     issueURL: string,
     issueNote: string,
+>>>>>>> 9abf34c (フォルダ機能前)
 }
 
 function IssueCard(props: IssueCardProps) {
     const [isHoverd, setIsHoverd] = useState<boolean>(false);
+<<<<<<< HEAD
+=======
     const dialogRef = useRef<HTMLDialogElement>(null);
+>>>>>>> 9abf34c (フォルダ機能前)
 
     function handleMouseEnter(): void {
         setIsHoverd(true);
@@ -48,6 +69,8 @@ function IssueCard(props: IssueCardProps) {
         setIsHoverd(false);
     }
 
+<<<<<<< HEAD
+=======
     function handleEditButton(): void {
           if(dialogRef.current) {
             dialogRef.current.showModal();
@@ -59,6 +82,7 @@ function IssueCard(props: IssueCardProps) {
             dialogRef.current.close();
         }
     }
+>>>>>>> 9abf34c (フォルダ機能前)
 
     return(
         <Card>
@@ -93,12 +117,22 @@ function IssueCard(props: IssueCardProps) {
                     />}
             </Box>   
         </IssueElevatedCard> 
+<<<<<<< HEAD
+            <IssueMenuButton
+                mode={props.mode}
+                issueId={props.issueId}
+                issueTitle={props.issueTitle}
+                issueURL={props.issueURL}
+                issueNote={props.issueNote}
+                folderName={props.folderName}
+=======
             <EditButton
                 width="5rem"
                 height="2rem"
                 mode={props.mode}
                 content="編集"
                 onClick={handleEditButton}
+>>>>>>> 9abf34c (フォルダ機能前)
                 />
             {isHoverd
                 ? <IssueNote
@@ -108,6 +142,8 @@ function IssueCard(props: IssueCardProps) {
                    </IssueNote>
                 : null
             }
+<<<<<<< HEAD
+=======
             <EditIssueDialog
                 mode={props.mode}
                 ref={dialogRef}
@@ -122,6 +158,7 @@ function IssueCard(props: IssueCardProps) {
                     issueId={props.issueId}
                     />
             </EditIssueDialog>
+>>>>>>> 9abf34c (フォルダ機能前)
         </Card>
     )
 }

@@ -70,6 +70,7 @@ const themeColor = {
         onSurface:"#eae1d4",
         onSurfaceVariant:"#cfc5b4",
         outline:"#99907e",
+        outlineVariant:"#4c4639",
     }
 }
 

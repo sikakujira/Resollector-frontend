@@ -47,7 +47,7 @@ const TextField = styled.input.attrs<TextFieldProps>(props => ({
     }))`
         border: none;
         outline: none;
-        width: 20rem;
+        width: 98%;
         height: 3.5rem;
         font-size: 18px;
         padding-bottom: 0px;
@@ -84,7 +84,7 @@ const Label = styled.label<{$isfocused: string, $value: string}>`
 //下線部の下のテキスト
 const SupportingText = styled.span`
         position: absolute;
-        bottom: -1.5rem;
+        top: 120%;
         left: 0;
         color: ${themeColor.light.error};
     `
@@ -93,6 +93,7 @@ const SupportingText = styled.span`
 type Props = {
     top: string,
     left: string,
+    width?: string,
     name: string,
     type: string,
     mode: "light" | "dark",
@@ -101,6 +102,7 @@ type Props = {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void,
     error: string,
     errorText?: string,
+    onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void,
 };
 
     function TextFieldStandard(props: Props) {
@@ -111,6 +113,7 @@ type Props = {
             <Wrapper 
                 $top={props.top} 
                 $left={props.left}
+                $width={props.width}
                 >
                 <Label  
                     $isfocused={focus.toString()} 
@@ -128,6 +131,7 @@ type Props = {
                     onChange={props.onChange}
                     onFocus={() => setFocus(true)}
                     onBlur={() => setFocus(false)}
+                    onKeyDown={props.onKeyDown}
                     />
                 <Underline 
                     mode={props.mode} 

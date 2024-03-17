@@ -3,9 +3,12 @@ import TextButton from '../../button/TextButton';
 import FilledButton from '../../button/FilledButton';
 import Box from '../../box/Box';
 import TextFieldOutline from '../../textField/TextFieldOutline';
-import { useState } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import themeColor from '../../../utils/themeColor';
 import TextAreaOutline from '../../textField/TextAreaOutline';
+import useFetch from '../../../services/useFetch';
+import getCookie from '../../../services/getCookie';
+import { RefetchIssuesContext } from '../../../context/RefetchIssuesContext';
 
 const ContentsPaper = styled.div`
         width: 100%;
@@ -13,14 +16,72 @@ const ContentsPaper = styled.div`
     `
 type Props = {
     mode: "light"|"dark",
-    onClick?: () => void,
+    onClick: () => void,
 }
 
 function AddIssueContents(props: Props) {
     const [titleValue, setTitleValue] = useState<string>("");
     const [URLValue, setURLValue] = useState<string>("");
     const [noteValue, setNoteValue] = useState<string>("");
+    const [folderValue, setFolderValue] = useState<string>("");
+    const [error, setError] = useState<ErrorMessage>({isError: false, title: "", folder: ""});
+    const { onClick } = props;
+    const refetchIssues = useContext(RefetchIssuesContext);
 
+    type ErrorMessage = {
+        isError: boolean,
+        title: string,
+        folder: string,
+    }
+
+    type ErrorResponse = {
+        title?: string,
+        folder?: string,
+    }
+
+    const option = {
+        method: 'POST',
+        url: '/api/v1/issues',
+        header: {
+            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
+        },
+        data: {
+            title: titleValue,
+            url: URLValue,
+            folderName: folderValue,
+            note: noteValue,
+        }
+    }
+
+    const { response, error: responseError, sendRequest} = useFetch<any, ErrorResponse>(option);
+
+    useEffect(() => {
+        if(responseError && responseError.data) {
+            setError({
+                isError: true,
+                title: responseError.data.title || "",
+                folder: responseError.data.folder|| "",
+            });
+        }
+    }, [responseError]);
+
+    useEffect(() => {
+        if(response && (response.status === 201)){
+            setError({
+                isError: false,
+                title: "",
+                folder: "",
+            });
+            setTitleValue("");
+            setURLValue("");
+            setNoteValue("");
+            setFolderValue("");
+            if(onClick){
+                onClick();
+            }
+            refetchIssues();
+        }
+    }, [response, onClick, refetchIssues]);
 
     function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>): void {
             setTitleValue(e.target.value);
@@ -34,17 +95,28 @@ function AddIssueContents(props: Props) {
             setNoteValue(e.target.value);
     }
 
+    function handleFolderChange(e: React.ChangeEvent<HTMLInputElement>): void {
+            setFolderValue(e.target.value);
+    }
+
+    
     function handleCancel(): void {
-            setTitleValue("");
+        setError({
+            isError: false,
+            title: "",
+            folder: "",
+        })
+         setTitleValue("");
             setURLValue("");
             setNoteValue("");
-            if(props.onClick){
-            props.onClick();
+            setFolderValue("");
+            if(onClick){
+                onClick();
             }
     }
 
     function handleSubmit(): void {
-        //送信処理
+        sendRequest();
     }
 
     return(
@@ -72,6 +144,8 @@ function AddIssueContents(props: Props) {
             type="text"
             labelColorLight={themeColor.light.surfaceContainerHigh}
             labelColorDark={themeColor.dark.surfaceContainerHigh}
+            isError={error.isError}
+            errorText={error.title}
             />
          <TextFieldOutline
             mode={props.mode}
@@ -81,18 +155,35 @@ function AddIssueContents(props: Props) {
             left="10%"
             name="issueurl"
             value={URLValue}
-            placeholder="Issue URL"
+            placeholder="URL"
             onChange={handleURLChange}
             type="url"
             labelColorLight={themeColor.light.surfaceContainerHigh}
             labelColorDark={themeColor.dark.surfaceContainerHigh}
+            isError={error.isError}
+            />
+        <TextFieldOutline
+            mode={props.mode}
+            width="80%"
+            height="3rem"
+            top="17rem"
+            left="10%"
+            name="foldername"
+            value={folderValue}
+            placeholder="Folder Name"
+            onChange={handleFolderChange}
+            type="text"
+            labelColorLight={themeColor.light.surfaceContainerHigh}
+            labelColorDark={themeColor.dark.surfaceContainerHigh}
+            isError={error.isError}
+            errorText={error.folder}
             />
         <TextAreaOutline
             mode={props.mode}
             cols={40}
-            rows={10}
+            rows={8}
             width="80%"
-            top="18rem"
+            top="23rem"
             left="10%"
             name="issuenote"
             value={noteValue}
@@ -100,6 +191,7 @@ function AddIssueContents(props: Props) {
             onChange={handleNoteChange}
             labelColorLight={themeColor.light.surfaceContainerHigh}
             labelColorDark={themeColor.dark.surfaceContainerHigh}
+            isError={error.isError}
             />
         <TextButton
             height="2.5rem"

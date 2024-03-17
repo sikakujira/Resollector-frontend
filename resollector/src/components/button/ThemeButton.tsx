@@ -12,6 +12,9 @@ const Button = styled.button<{mode: "light"|"dark"}>`
         border-radius: 50%;
         cursor: pointer;
         overflow: hidden;
+        @media (max-width: 840px) {
+            display: none;
+        }
         ${({mode}) => {
             if(mode === "light") {
                 return css`

@@ -4,9 +4,10 @@ import themeColor from '../../utils/themeColor';
 import { useState, useRef } from 'react';
 import AccountMenuDialog from '../dialog/AccountMenuDialog';
 import AccountMenu from '../dialog/contents/AccountMenu';
+import { MdMoreHoriz } from 'react-icons/md';
 
 type ButtonProps = {
-        mode: "light"|"dark",
+        mode: "light"|"dark", 
         $isClicked: boolean,
 }
 
@@ -20,11 +21,11 @@ const Button = styled.button<ButtonProps>`
         outline: none;
         cursor: pointer;
         overflow: hidden;
+        background-color: transparent;
         ${props => {
             switch(true) {
                 case (props.mode === "light") && (props.$isClicked === false):
                     return css`
-                        background-color: ${themeColor.light.surfaceContainer};
                         &:hover {
                             &::before {
                                 content: "";
@@ -38,10 +39,10 @@ const Button = styled.button<ButtonProps>`
                             }
                        
                         }
+                        color: ${themeColor.light.primary};
                     `
                 case (props.mode === "light") && (props.$isClicked === true):
                     return css`
-                        background-color: ${themeColor.light.surfaceContainer};
                         &::before {
                             content: "";
                             background-color: ${themeColor.light.primary};
@@ -52,10 +53,10 @@ const Button = styled.button<ButtonProps>`
                             left: 0;
                             opacity: 8%;
                         }
+                        color: ${themeColor.light.primary};
                     `
                 case (props.mode === "dark") && (props.$isClicked === false):
                     return css`
-                        background-color: ${themeColor.dark.surfaceContainerHigh};
                         &:hover {
                             &::before {
                                 content: "";
@@ -69,10 +70,10 @@ const Button = styled.button<ButtonProps>`
                             }
                        
                         }
+                        color: ${themeColor.dark.primary};
                     `
                 case (props.mode === "dark") && (props.$isClicked === true):
                     return css`
-                        background-color: ${themeColor.dark.surfaceContainerHigh};
                         &::before {
                             content: "";
                             background-color: ${themeColor.dark.primary};
@@ -83,14 +84,26 @@ const Button = styled.button<ButtonProps>`
                             left: 0;
                             opacity: 8%;
                         }
+                        color: ${themeColor.dark.primary};
                         `
             }    
         }}
         `
 
+const PersonIcon = styled(MdOutlinePersonOutline)`
+            @media (max-width: 840px) {
+                display: none;
+            }
+        `
+const MenuIcon = styled(MdMoreHoriz)`
+            @media (min-width: 841px) {
+                display: none;
+            }
+        `
 
 type AccountButtonProps = {
     mode: "light"|"dark",
+    $changeTheme?: () => void,
 }
 
 function AccountButton(props: AccountButtonProps) {
@@ -117,23 +130,20 @@ function AccountButton(props: AccountButtonProps) {
             $isClicked={isClicked}
             onClick={openDialog}
         >
-            {props.mode === "light" ?  
-                <MdOutlinePersonOutline
-                    size={25}
-                    color={themeColor.light.primary}
-                    />
-            :   <MdOutlinePersonOutline
-                    size={25}
-                    color={themeColor.dark.primary}
-                    />
-            }
-            </Button>
+            <PersonIcon
+                size={25}
+                />
+            <MenuIcon
+                size={30}
+                />
+        </Button>
         <AccountMenuDialog
             ref={dialogRef}
             onClick={closeDialog}
             >
             <AccountMenu
                 mode={props.mode}
+                $changeTheme={props.$changeTheme}
                 />
         </AccountMenuDialog>
         </>

@@ -3,8 +3,8 @@ import themeColor from '../../utils/themeColor';
 import { useState } from 'react';
 
 type ButtonProps = {
-    width: string,
-    height: string,
+    width?: string,
+    height?: string,
     $left?: string,
     $top?: string,
     $right?: string,
@@ -125,16 +125,23 @@ const Wave = styled.span<{$isClicked: boolean, mode: "light" | "dark", $top: str
 
 
 type FilledButtonProps = {
-    width: string,
-    height: string,
+    width?: string,
+    height?: string,
     left?: string,
     top?: string,
     right?: string,
     bottom?: string,
     mode: "light" | "dark",
+<<<<<<< HEAD
+    content?: string,
+    onClick?: (e?: any) => void,
+    className?: string,
+    children?: React.ReactNode
+=======
     content: string,
     onClick?: (e?: any) => void,
     className?: string,
+>>>>>>> 9abf34c (フォルダ機能前)
 };
 
 function FilledButton(props: FilledButtonProps) {
@@ -148,9 +155,9 @@ function FilledButton(props: FilledButtonProps) {
 
 
     function handleMouseDown(e: React.MouseEvent<HTMLButtonElement>): void {
-            //半径分引く
-            const calculationLocationX = e.nativeEvent.offsetX - 10 ;
-            const calculationLocationY = e.nativeEvent.offsetY - 10;  
+            const targetRect = e.currentTarget.getBoundingClientRect();
+            const calculationLocationX = e.clientX - targetRect.left - 10 ;
+            const calculationLocationY = e.clientY - targetRect.top - 10;  
             setClickedLocation({locationX: calculationLocationX.toString() , locationY: calculationLocationY.toString()});
             setIsClicked(true);
     }
@@ -176,6 +183,7 @@ function FilledButton(props: FilledButtonProps) {
             className={props.className}
             >
             {props.content}
+            {props.children}
             <Wave 
                 $isClicked={isClicked} 
                 mode={props.mode} 

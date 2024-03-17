@@ -6,6 +6,7 @@ import AccountButton from '../button/AccountButton';
 import Box from '../box/Box';
 
 
+
 const StyledHeader = styled.header<{mode: "light"| "dark"}>`
     position: fixed;
     top: 0;
@@ -22,14 +23,21 @@ const Logo = styled.img.attrs<{mode: "light"|"dark"}>({
         width: "150px",
         height: "70px",
     })`
-        object-fit: cover;       
+        object-fit: cover;   
+        user-select: none;    
         position: fixed;
-        left: 3%;
+        @media (min-width: 841px) {
+            left: 3%;
+        }
+        @media (max-width: 840px)  {
+            left: 50%;
+            transform: translateX(-50%);
+        }
         top: 0.8rem;
         ${({mode}) => {
             if(mode === "light") {
                 return css`
-                filter: brightness(0) 
+                    filter: brightness(0) 
                         saturate(100%) 
                         invert(23%) 
                         sepia(87%) 
@@ -40,7 +48,7 @@ const Logo = styled.img.attrs<{mode: "light"|"dark"}>({
                 `
             } else {
                 return css`
-                filter: brightness(0) 
+                 filter: brightness(0) 
                         saturate(100%) 
                         invert(97%) 
                         sepia(27%) 
@@ -53,6 +61,13 @@ const Logo = styled.img.attrs<{mode: "light"|"dark"}>({
         }}
         
     `
+
+const SettingBox = styled(Box)`
+        right: 4%;
+        width: 8rem;
+        height: 3rem;
+        top: 1rem;
+`
 
 type HeaderProps = {
         mode: "light"|"dark",
@@ -68,20 +83,16 @@ function Header(props: HeaderProps) {
             >
            <Logo mode={props.mode}/>
            {props.login === true ?
-                <Box 
-                    $right="4%"
-                    width="8rem"
-                    height="3rem"
-                    $top="1rem"
-                    >
+                <SettingBox>
                 <ThemeButton 
                     mode={props.mode} 
                     onClick={props.onClickTheme}
                 />
                 <AccountButton 
                     mode={props.mode}
+                    $changeTheme={props.onClickTheme}
                 />
-                </Box>
+                </SettingBox>
             : null}
         </StyledHeader>
     )

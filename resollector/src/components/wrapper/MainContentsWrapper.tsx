@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 
 
 const MainContentsWrapper = styled.div`
-    height: 100vh;
+    height: auto;
     @media (min-width: 841px) {
         width: 50rem;
         position: absolute;

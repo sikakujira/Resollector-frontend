@@ -1,12 +1,16 @@
 import TextFieldStandard from '../components/textField/TextFieldStandard';
-import CardOutlined from '../components/card/CardOutlined';
 import Background from '../components/background/Background';
 import Box from '../components/box/Box';
 import FilledButton from '../components/button/FilledButton';
 import TextButton from '../components/button/TextButton';
 import Header from '../components/header/Header';
 import themeColor from '../utils/themeColor';
-import { useState, useEffect } from 'react';
+import { useState, useContext, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import useFetch from '../services/useFetch';
+import { AuthDispatchContext, AuthContext } from '../context/AuthContext';
+import SignupCard  from '../components/card/SignupCard';
+import getCookie from '../services/getCookie';
 
 export default function Signup() {
         const [email, setEmail] = useState<string>("");
@@ -18,16 +22,59 @@ export default function Signup() {
              passwordError: "", 
              confirmPasswordError: ""
         });
-        useEffect(() => {
-        //dummy
-            const dummy: Error = {
-                isError: true,
-                emailError: "email dummy message",
-                passwordError: "password dummy message",
-                confirmPasswordError: "confirm password dummy message",
+        const setIsAuthenticated = useContext(AuthDispatchContext);
+        const isAuthenticated = useContext(AuthContext);
+        const navigate = useNavigate();
+
+        const option = {
+            method: 'POST',
+            url: '/api/v1/signup',
+            data: {
+                email: email,
+                password: password,
+            },
+            header: {
+                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
             }
-            setError(dummy);
-        }, [])
+        }
+
+        type ErrorResponse = {
+            email?: string,
+            password?: string,
+            userExists?: string,
+        }
+
+        const { response, error: responseError, sendRequest} = useFetch<null, ErrorResponse>(option);
+
+        useEffect(() => {
+            if(isAuthenticated) {
+                navigate("/");
+            }
+        }, [isAuthenticated, navigate]);
+
+        useEffect(() => {
+            if(response && (response.status === 201)) {
+                setIsAuthenticated(true);
+                setError({
+                    isError: false,
+                    emailError: "",
+                    passwordError: "",
+                    confirmPasswordError: ""
+                });
+            }
+        }, [response, setIsAuthenticated]);
+
+        useEffect(() => {
+            if(responseError) {
+                setError((prevError) => ({
+                    isError: true,
+                    emailError: responseError.data.email || responseError.data.userExists || "",
+                    passwordError: responseError.data.password || "",
+                    confirmPasswordError: prevError.confirmPasswordError
+                }));
+            }
+        }, [responseError]);
+       
 
         type Error = {
             isError: boolean,
@@ -48,6 +95,30 @@ export default function Signup() {
             setConfirmPassword(e.target.value);
         }
 
+        function handleSubmit(): void {
+            if(password !== confirmPassword) {
+                setError({
+                    isError: true,
+                    emailError: "",
+                    passwordError: "",
+                    confirmPasswordError: "パスワードが異なっています"
+                });
+                return;
+            }
+
+            sendRequest();
+        }
+
+        function moveToSignIn(): void {
+            navigate('/signin');
+        }
+
+        function handleKeyDown(e: React.KeyboardEvent<HTMLInputElement>): void {
+            if(e.key === 'Enter') {
+                handleSubmit();
+            }
+        }
+
     
     return(
         <Background mode="light">
@@ -55,15 +126,13 @@ export default function Signup() {
             mode="light" 
             login={false}
             />
-        <CardOutlined 
-            name="sinupCard" 
-            width="35rem" 
-            height="30rem" 
+        <SignupCard
+            name="signupCard"
             $center="true"
             >
         <Box 
             $top="4rem" 
-            $left="14rem" 
+            $left="40%" 
             $color={`${themeColor.light.primary}`} 
             fontSize="30px">
                 Sign up
@@ -73,54 +142,62 @@ export default function Signup() {
             type="email"
             placeholder="Email"
             top="8rem"
-            left="7rem"
+            left="20%"
+            width="60%"
             mode="light"
             value={email}
             onChange={handleEmailChange}
             error={error.isError.toString()}
             errorText={error.emailError}
+            onKeyDown={handleKeyDown}
             />
         <TextFieldStandard 
             name="userpassword"
             type="password"
             placeholder="Password"
             top="14rem"
-            left="7rem"
+            left="20%"
+            width="60%"
             mode="light"
             value={password}
             onChange={handlePasswordChange}
             error={error.isError.toString()}
             errorText={error.passwordError}
+            onKeyDown={handleKeyDown}
             />
         <TextFieldStandard 
             name="confirmpassword"
             type="password"
             placeholder="Confirm password"
             top="20rem"
-            left="7rem"
+            left="20%"
+            width="60%"
             mode="light"
             value={confirmPassword}
             onChange={handleConfirmPasswordChange}
             error={error.isError.toString()}
             errorText={error.confirmPasswordError}
+            onKeyDown={handleKeyDown}
             />
         <TextButton 
             width="7rem"
             height="2.5rem"
             top="26rem"
-            left="5rem"
+            left="10%"
             mode="light"
             content="Sign in"
+            onClick={moveToSignIn}
             />
         <FilledButton
             width="7rem"
             height="2.5rem"
             top="26rem"
-            left="23rem"
+            right="10%"
             mode="light"
             content="Sign up"
+            onClick={handleSubmit}
             />
-        </CardOutlined>
+        </SignupCard>
         </Background>
     )
 }

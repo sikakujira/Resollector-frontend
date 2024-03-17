@@ -3,8 +3,8 @@ import themeColor from '../../utils/themeColor';
 
 type Props = {
     name: string,
-    width: string,
-    height: string,
+    width?: string,
+    height?: string,
     margin?: string,
     $center?: string,
 };

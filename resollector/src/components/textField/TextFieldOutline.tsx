@@ -10,13 +10,13 @@ type InputProps = {
 }
 
 const Input = styled.input<InputProps>`
-        width: 100%;
+        width: 95%;
         height: 100%;
         font-size: 20px;
         border-radius: 0.5rem;
         outline: none;
         background-color: transparent;
-        padding-left: 20px;
+        padding-left: 5%;
         color: ${props => (props.mode === "light" 
             ?   `${themeColor.light.onSurfaceVariant}` 
             : `${themeColor.dark.onSurfaceVariant}`
@@ -88,9 +88,9 @@ const Label = styled.label<LabelProps>`
         }}
     `
 
-const SupportingText = styled.span<{mode: "light"|"dark"}>`
+const SupportingText = styled.span<{mode: "light"|"dark", errorBottom?: string}>`
         position: absolute;
-        bottom: -1.5rem;
+        bottom: ${props => props.errorBottom ||  "-1.7rem"};
         left: 4%;
         color: ${props => (props.mode === "light" 
             ? themeColor.light.error 
@@ -115,6 +115,8 @@ type TextFieldOutlineProps = {
     labelColorLight: string,
     labelColorDark: string,
     labelTop?: string,
+    onKeyDown?: (e: any) => void,
+    errorBottom?: string,
 }
 
 function TextFieldOutline(props: TextFieldOutlineProps) {
@@ -142,6 +144,7 @@ function TextFieldOutline(props: TextFieldOutlineProps) {
                 onFocus={() => setIsFocused(true)}
                 onBlur={() => setIsFocused(false)}
                 id={id}
+                onKeyDown={props.onKeyDown}
                 />
             <Label
                 mode={props.mode}
@@ -156,7 +159,8 @@ function TextFieldOutline(props: TextFieldOutlineProps) {
             </Label>
             {props.isError 
                 ?   <SupportingText
-                        mode={props.mode}>
+                        mode={props.mode}
+                        errorBottom={props.errorBottom}>
                     {props.errorText}
                     </SupportingText> 
                 : null

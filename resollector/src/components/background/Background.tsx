@@ -8,6 +8,7 @@ type Props = {
 const Background = styled.div<Props>`
     width: 100%;
     height: 100vh;
+    position: fixed;
     ${({mode}) => {
         if(mode === "light"){
             return css`

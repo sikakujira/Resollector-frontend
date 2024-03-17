@@ -5,6 +5,7 @@ type Props = {
     $top: string,
     $left: string,
     $width: string,
+    mode?: "light"|"dark",
 }
 
 const Divider = styled.div<Props>`
@@ -13,7 +14,14 @@ const Divider = styled.div<Props>`
     left: ${props => props.$left};
     height: 1px;
     width: ${props => props.$width};
-    background-color: ${themeColor.light.outlineVariant};
+    background-color: 
+        ${props => {
+           if(!props.mode || props.mode === "light") {
+                return `${themeColor.light.outlineVariant}`;
+           } else {
+                return `${themeColor.dark.outlineVariant}`;
+           }
+        }};
 `
 
 export default Divider;
