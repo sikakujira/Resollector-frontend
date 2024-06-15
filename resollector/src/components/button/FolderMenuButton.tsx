@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 import SecondaryContainerButton from './SecondaryContainerButton';
 import { styled } from 'styled-components';
 import { MdFolderOpen } from "react-icons/md";
@@ -73,13 +72,6 @@ function FolderMenuButton(props: FolderMenuButtonProps) {
         </SmallButton>
         </>
     )
-=======
-//import { MdMenu } from "react-icons/md";
-//import FilledButton from './FilledButton';
-
-function FolderMenuButton() {
-
->>>>>>> 9abf34c (フォルダ機能前)
 }
 
 export default FolderMenuButton;
