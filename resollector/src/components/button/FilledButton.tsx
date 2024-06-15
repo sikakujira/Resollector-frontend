@@ -132,16 +132,10 @@ type FilledButtonProps = {
     right?: string,
     bottom?: string,
     mode: "light" | "dark",
-<<<<<<< HEAD
     content?: string,
     onClick?: (e?: any) => void,
     className?: string,
     children?: React.ReactNode
-=======
-    content: string,
-    onClick?: (e?: any) => void,
-    className?: string,
->>>>>>> 9abf34c (フォルダ機能前)
 };
 
 function FilledButton(props: FilledButtonProps) {

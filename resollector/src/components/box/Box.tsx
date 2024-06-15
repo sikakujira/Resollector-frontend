@@ -12,11 +12,8 @@ type Props = {
     $zIndex?: string,
     $bottom?: string,
     $position?: string,
-<<<<<<< HEAD
     $padding?: string,
     $margin?: string,
-=======
->>>>>>> 9abf34c (フォルダ機能前)
 };
 
 const Box = styled.div<Props>`
