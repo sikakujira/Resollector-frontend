@@ -10,7 +10,7 @@ import { useNavigate } from 'react-router-dom';
 import useFetch from '../services/useFetch';
 import { AuthDispatchContext, AuthContext } from '../context/AuthContext';
 import SignupCard  from '../components/card/SignupCard';
-import getCookie from '../services/getCookie';
+
 
 export default function Signup() {
         const [email, setEmail] = useState<string>("");
@@ -33,9 +33,6 @@ export default function Signup() {
                 email: email,
                 password: password,
             },
-            header: {
-                'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-            }
         }
 
         type ErrorResponse = {
@@ -61,6 +58,7 @@ export default function Signup() {
                     passwordError: "",
                     confirmPasswordError: ""
                 });
+                localStorage.setItem('token', response.headers['authorization']);
             }
         }, [response, setIsAuthenticated]);
 

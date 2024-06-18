@@ -6,7 +6,6 @@ import TextFieldOutline from '../../textField/TextFieldOutline';
 import Box from '../../box/Box';
 import { useState, useEffect } from 'react';
 import useFetch from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 import useFetchFolders from '../../../services/useFetchFolders';
 
 const ContentsPaper = styled.div`
@@ -32,10 +31,6 @@ function AddFolderContents(props: AddFolderContentsProps) {
     const options = {
         method: 'POST',
         url: '/api/v1/folders',
-        header: {
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        },
         data: {
             name: value,
             parentId: props.parent,

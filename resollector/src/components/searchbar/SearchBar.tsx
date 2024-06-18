@@ -6,7 +6,6 @@ import TextButton from '../button/TextButton';
 import { useState, useContext, useEffect } from 'react';
 import useFetch from '../../services/useFetch';
 import { IssuesDispatchContext } from '../../context/IssuesContext';
-import getCookie from '../../services/getCookie';
 import { Issue } from '../../reducer/IssuesReducer';
 import { SetQueryContext } from '../../context/RefetchIssuesContext';
 
@@ -92,9 +91,6 @@ function SearchBar(props: SearchBarProps) {
     const option = {
         method: 'POST',
         url: 'api/v1/issues/search/by-title',
-        header: {
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-        },
         data: {
             title: value
         },
@@ -109,7 +105,6 @@ function SearchBar(props: SearchBarProps) {
     }, [response, issuesDispatch]);
 
     useEffect(() => {
-        //他のリクエストを挟むとcsrfトークンが変わってしまうため、再レンダリングで取得し直す
         if(refresh) {
             sendRequest();
             setRefresh(false);

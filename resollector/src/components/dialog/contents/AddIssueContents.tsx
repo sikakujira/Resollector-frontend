@@ -7,7 +7,6 @@ import { useState, useEffect, useContext } from 'react';
 import themeColor from '../../../utils/themeColor';
 import TextAreaOutline from '../../textField/TextAreaOutline';
 import useFetch from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 import { RefetchIssuesContext } from '../../../context/RefetchIssuesContext';
 
 const ContentsPaper = styled.div`
@@ -42,9 +41,6 @@ function AddIssueContents(props: Props) {
     const option = {
         method: 'POST',
         url: '/api/v1/issues',
-        header: {
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-        },
         data: {
             title: titleValue,
             url: URLValue,

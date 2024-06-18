@@ -19,15 +19,16 @@ type UseFetchResult<T,U> = {
 }
 
 function useFetch<T,U>(options: RequestOptions): UseFetchResult<T,U> {
-    const { method, url, header: requestHeader, data: requestBody} = options;
+    const { method, url, data: requestBody} = options;
 
     const [response, setResponse] = useState<AxiosResponse<T> | null>(null);
     const [error, setError] = useState<AxiosResponse<U> | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const setIsAuthenticated = useContext(AuthDispatchContext);
-
+  
     const sendRequest = useCallback(async() => {
+        const token = localStorage.getItem('token') !== undefined ? localStorage.getItem('token') : null;
         setIsLoading(true);
         setError(null);
         setResponse(null);
@@ -36,8 +37,11 @@ function useFetch<T,U>(options: RequestOptions): UseFetchResult<T,U> {
             const successResponse = await axiosInstance.request<T>({
                 method,
                 url,
-                headers: requestHeader,
                 data: requestBody,
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': token,
+                }
             });
             
             setResponse(successResponse);
@@ -53,7 +57,7 @@ function useFetch<T,U>(options: RequestOptions): UseFetchResult<T,U> {
         } finally {
             setIsLoading(false);
         }
-    },[requestHeader, requestBody, method, url, navigate, setIsAuthenticated]);
+    },[ requestBody, method, url, navigate, setIsAuthenticated]);
 
     return {response, error, isLoading, sendRequest};
 }

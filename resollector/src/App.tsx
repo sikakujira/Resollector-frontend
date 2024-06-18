@@ -4,24 +4,9 @@ import Signin from './pages/Signin';
 import Signup from './pages/Signup';
 import AuthProvider from './context/AuthProvider';
 import PrivateRoute from './components/routes/PrivateRoute';
-import { useEffect } from 'react';
-import axiosInstance from './services/axiosInstance';
 
 function App() {
  
-   useEffect(() => {
-    const getCsrf = async() => {
-      try {
-        await axiosInstance({
-          method: 'GET',
-          url: '/api/v1/csrf',
-        })
-      } catch (e) {
-        console.error(e);
-      }
-    }
-    getCsrf();
-  }, []);
 
   return (
     <AuthProvider>

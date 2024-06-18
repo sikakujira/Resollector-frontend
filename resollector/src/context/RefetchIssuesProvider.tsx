@@ -1,7 +1,6 @@
 import { useContext, useState } from 'react';
 import { IssuesDispatchContext } from './IssuesContext';
 import axiosInstance from '../services/axiosInstance';
-import getCookie from '../services/getCookie';
 import { AxiosResponse } from 'axios';
 import { RefetchIssuesContext, SetQueryContext } from './RefetchIssuesContext';
 
@@ -21,12 +20,13 @@ function RefetchIssuesProvider({ children } : { children : React.ReactNode }) {
     }
 
     async function fetchIssue(option: Option): Promise<AxiosResponse<any>|undefined> {
+        const token = localStorage.getItem('token') !== undefined ? localStorage.getItem('token') : null;
         try {
               const response = await axiosInstance.request({
                 method: 'POST',
                 url: option.url,
                 headers: {
-                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
+                    'Authorization': token,
                     'Content-Type': 'application/json',
                 },
                 data: option.data,

@@ -5,7 +5,6 @@ import TextButton from '../../button/TextButton';
 import themeColor from '../../../utils/themeColor';
 import { useState, useEffect } from 'react';
 import useFetch from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 import useFetchFolders from '../../../services/useFetchFolders';
 import { Folder } from '../../../reducer/foldersReducer';
 
@@ -28,10 +27,6 @@ function EditFolderNameContents(props: EditFolderContentsProps) {
     const option = {
         method: 'PUT',
         url: '/api/v1/folders',
-        header: {
-            'Content-Type': 'application/json',
-            'X-XSRF-Token': getCookie('XSRF-TOKEN'),
-        },
         data: {
             id: folder.id,
             name: value,

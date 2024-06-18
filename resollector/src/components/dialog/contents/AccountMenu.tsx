@@ -6,11 +6,9 @@ import AccountSettingsDialog from '../AccountSettingsDialog';
 import AccountSettings from './AccountSettings';
 import { useRef } from 'react';
 import { MdWbSunny, MdBedtime } from 'react-icons/md';
-import useFetch from '../../../services/useFetch';
-import { useEffect, useContext } from 'react';
+import {  useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { AuthDispatchContext } from '../../../context/AuthContext';
-import getCookie from '../../../services/getCookie';
 
 
 
@@ -62,24 +60,8 @@ type AccountMenuProps = {
 function AccountMenu(props: AccountMenuProps) {
     const dialogRef = useRef<HTMLDialogElement>(null);
     const setIsAuthenticated = useContext(AuthDispatchContext);
-
-    const option = {
-        method: 'POST',
-        url: '/api/v1/logout',
-        header: {
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-        },
-        data: '',
-    }
-    const { response, sendRequest} = useFetch(option);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        if(response && (response.status === 200)) {
-            setIsAuthenticated(false);
-            navigate('/signin');
-        }
-    }, [response, navigate, setIsAuthenticated]);
 
     function openSettings(): void {
         if(dialogRef.current) {
@@ -94,7 +76,9 @@ function AccountMenu(props: AccountMenuProps) {
     }
     
     function logout(): void {
-        sendRequest();
+            localStorage.removeItem('token');
+            setIsAuthenticated(false);
+            navigate('/signin');
     }
 
     return(

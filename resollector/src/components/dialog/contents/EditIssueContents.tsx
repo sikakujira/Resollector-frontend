@@ -7,7 +7,6 @@ import { useState, useEffect, useRef } from 'react';
 import themeColor from '../../../utils/themeColor';
 import TextAreaOutline from '../../textField/TextAreaOutline';
 import  useFetch  from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 
 
 const ContentsPaper = styled.div`
@@ -42,9 +41,6 @@ function EditIssueContents(props: Props) {
     const option = {
         method: 'PUT',
         url: '/api/v1/issues',
-        header: {
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-        },
         data: {
             id: issueId,
             title: titleValue,

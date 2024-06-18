@@ -7,7 +7,6 @@ import React, { useState, useEffect } from 'react';
 import { Folder } from '../../../reducer/foldersReducer';
 import useFetch from '../../../services/useFetch';
 import useFetchFolders from '../../../services/useFetchFolders';
-import getCookie from '../../../services/getCookie';
 
 type MoveFolderContentsProps = {
     mode:"light"|"dark",
@@ -27,10 +26,6 @@ function MoveFolderContents(props: MoveFolderContentsProps) {
     const option = {
         method: 'PUT',
         url: '/api/v1/folders/move',
-        header: {
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        },
         data: {
             id: folder.id,
             parentName: value || null,

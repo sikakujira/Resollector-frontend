@@ -2,7 +2,6 @@ import TextButton from '../../button/TextButton';
 import FilledButton from '../../button/FilledButton';
 import Box from '../../box/Box';
 import useFetch from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 import { useEffect, useState } from 'react';
 import useFetchFolders from '../../../services/useFetchFolders';
 
@@ -22,10 +21,6 @@ function DeleteFolderContents(props: DeleteFolderContentsProps) {
     const option = {
         method: 'DELETE',
         url: '/api/v1/folders',
-        header: {
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        },
         data: props.folderId,
     }
 

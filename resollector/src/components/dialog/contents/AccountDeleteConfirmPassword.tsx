@@ -6,7 +6,6 @@ import TextFieldOutline from '../../textField/TextFieldOutline';
 import themeColor from '../../../utils/themeColor';
 import { useState, useEffect, useContext } from 'react';
 import useFetch from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 import { useNavigate } from 'react-router-dom';
 import { AuthDispatchContext } from '../../../context/AuthContext';
 
@@ -30,10 +29,6 @@ function AccountDeleteConfirmPassword(props: Props) {
     const option = {
         method: 'DELETE',
         url: '/api/v1/user',
-        header: {
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        },
         data: {
             password: value
         }

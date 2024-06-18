@@ -6,7 +6,6 @@ import EditIssueContents from './EditIssueContents';
 import { useRef, useContext, useEffect } from 'react';
 import { RefetchIssuesContext } from '../../../context/RefetchIssuesContext'; 
 import useFetch from '../../../services/useFetch';
-import getCookie from '../../../services/getCookie';
 
 type MenuCardProps = {
     mode: "light"|"dark",
@@ -68,10 +67,6 @@ function IssueMenu(props: IssueMenuProps) {
     const option = {
         method: 'DELETE',
         url: '/api/v1/issues',
-        header: { 
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-            'Content-Type': 'application/json'
-        },
         data: props.issueId 
     }
 

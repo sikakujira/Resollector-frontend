@@ -3,7 +3,6 @@ import { Navigate } from 'react-router-dom';
 import { useContext, useState, useRef, useEffect } from 'react';
 import { AuthContext, AuthDispatchContext } from '../../context/AuthContext';
 import Loading from '../../pages/Loading';
-import getCookie from '../../services/getCookie';
 import useFetch from '../../services/useFetch';
 
 
@@ -16,9 +15,6 @@ function PrivateRoute() {
     const option = {
         method: 'POST',
         url: '/api/v1/auth/check',
-        header: {
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN')
-        },
     }
 
     const {response, error, sendRequest} = useFetch(option);

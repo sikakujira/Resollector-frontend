@@ -10,7 +10,7 @@ import  useFetch  from '../services/useFetch';
 import { AuthDispatchContext } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import SigninCard from '../components/card/SigninCard';
-import getCookie from '../services/getCookie';
+
 
 export default function Signin() {
         const [email, setEmail] = useState<string>("");
@@ -30,10 +30,8 @@ export default function Signin() {
                     email: email,
                     password: password,
                 },
-                header: {
-                    'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-                }
             }
+            
 
         const { response, error: responseError, sendRequest } = useFetch<null, {errorMessage: string}>(option);
         const navigate = useNavigate();
@@ -51,6 +49,7 @@ export default function Signin() {
                     emailError: "",
                     passwordError: "",
                 });
+                localStorage.setItem('token', response.headers['authorization']);
                 setIsAuthenticated(true);
                 setRedirectHome(true);
             }

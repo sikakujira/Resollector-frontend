@@ -10,7 +10,6 @@ import FolderSettingsCard from './FolderSettingsCard';
 import MenuDialog from '../dialog/MenuDialog';
 import { Folder } from '../../reducer/foldersReducer';
 import useFetch from '../../services/useFetch';
-import getCookie from '../../services/getCookie';
 import { SetQueryContext } from '../../context/RefetchIssuesContext';
 import { IssuesDispatchContext } from '../../context/IssuesContext';
 import { Issue } from '../../reducer/IssuesReducer';
@@ -182,10 +181,6 @@ function FolderCard(props: FolderCardProps) {
     const option = {
         method: 'POST',
         url: '/api/v1/issues/search/by-folder',
-        header: {
-            'Content-Type': 'application/json',
-            'X-XSRF-TOKEN': getCookie('XSRF-TOKEN'),
-        },
         data: folder.id,
     }
 
