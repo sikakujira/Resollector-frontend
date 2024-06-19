@@ -48,6 +48,7 @@ function useFetch<T,U>(options: RequestOptions): UseFetchResult<T,U> {
         } catch(error) {
             if(axios.isAxiosError(error) && error.response) {
                 if(error.response.status === 403) {
+                    localStorage.removeItem('token');
                     setIsAuthenticated(false);
                     navigate('/signin');
                 }

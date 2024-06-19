@@ -3,7 +3,7 @@ import { MdOutlineFolder } from "react-icons/md";
 import { MdKeyboardArrowDown } from "react-icons/md";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { MdOutlineMoreHoriz } from "react-icons/md";
-import { useState, useRef, useEffect, useContext } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
 import themeColor from '../../utils/themeColor';
 import Box from '../box/Box';
 import FolderSettingsCard from './FolderSettingsCard';
@@ -75,7 +75,7 @@ const FolderIcon = styled.div<{mode: "light"|"dark"}>`
 const FolderTitleBox = styled(Box)`
         overflow: hidden;
         white-space: nowrap;
-        cursor: default;
+        cursor: pointer;
 `
 
 const FolderSettingsButton = styled.button<{mode:"light"|"dark", $isOpen: boolean}>`
@@ -264,7 +264,8 @@ function FolderCard(props: FolderCardProps) {
                     $color={props.mode}
                     $position="static"
                     $padding="1px 3px"
-                    width="auto">
+                    width="auto"
+                    >
                 {folder.name}
                 </FolderTitleBox>
                 <FolderSettingButtonBox>
